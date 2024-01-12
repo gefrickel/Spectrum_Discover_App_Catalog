@@ -26,4 +26,6 @@ RUN python3 -m pip install -r /application/requirements.txt && \
 
 ENTRYPOINT []
 
-CMD ["python3", "/application/file_checksum.py"]
+# CMD ["python3", "/application/file_checksum.py"]
+
+CMD ["/bin/sleep", "infinity"]
