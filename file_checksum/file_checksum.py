@@ -1,3 +1,4 @@
+sh-4.4# cat file_checksum.py 
 #!/usr/bin/python -W ignore
 ########################################################## {COPYRIGHT-TOP} ###
 # Licensed Materials - Property of IBM
@@ -38,6 +39,39 @@ logger = logging.getLogger(os.environ.get('APPLICATION_NAME', 'file-checksum'))
 
 
 SUPPORTED_CHECKSUMS = ['sha3_384', 'sha1', 'sha256', 'sha512', 'sha384', 'md5', 'sha3_224', 'sha3_512', 'sha224', 'sha3_256']
+
+def hashfile(file):
+
+    # A arbitrary (but fixed) buffer size
+    # 65536 = 65536 bytes = 64 kilobytes
+    BUF_SIZE = 65536
+
+    # Initializing the sha256() method
+    sha256 = hashlib.sha256()
+
+    # Opening the file provided as the first
+    # commandline argument
+    with open(file, 'rb') as f:
+        while True:
+            # reading data = BUF_SIZE from the
+            # file and saving it in a variable
+            data = f.read(BUF_SIZE)
+
+            # True if eof = 1
+            if not data:
+                break
+
+            # Passing that data to that sh256 hash
+            # function (updating the function with that data)
+            sha256.update(data)
+
+    # sha256.hexdigest() hashes all the input data passed
+    # to the sha256() via sha256.update()
+    # Acts as a finalize method, after which
+    # all the input data gets hashed
+    # hexdigest() hashes the data, and returns
+    # the output in hexadecimal format
+    return sha256.hexdigest()
 
 def main():  # pylint: disable=too-many-locals
     """Perform checksum on given files."""
@@ -117,9 +151,11 @@ def main():  # pylint: disable=too-many-locals
                     ##################################################
                     ################ Start Custom Code ###############
                     ##################################################
+
                     try:
-                        with open(tmpfile_path, 'rb') as file:
-                            content = file.read()
+                        # with open(tmpfile_path, 'rb') as file:
+                        open(tmpfile_path, 'rb')
+                           # content = file.read()
                     except FileNotFoundError:
                         logger.info("Could not find file: %s.", tmpfile_path)
                         reply.add_result('failed', key)
@@ -131,9 +167,11 @@ def main():  # pylint: disable=too-many-locals
 
                     tags = {}
                     for tag in valid_checksums:
-                        checksum = getattr(hashlib, tag)()
-                        checksum.update(content)
-                        tags[tag] = checksum.hexdigest()
+                        checksum = hashfile(tmpfile_path)
+
+                        print(f"Hash:{checksum}")
+                    #    checksum.update(content)
+                        tags[tag] = checksum
                     ##################################################
                     ################# End Custom Code ################
                     ##################################################
