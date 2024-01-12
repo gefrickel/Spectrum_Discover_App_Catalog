@@ -1,7 +1,7 @@
 FROM ibmcom/spectrum-discover-application-sdk:latest
 
 ### Required labels
-LABEL application_name="file-checksum"
+LABEL application_name="file-checksum-dev"
 # comma delimted list of file extensions (ex: jpg,jpeg,tiff)
 LABEL filetypes="all"
 LABEL description="Performs a checksum on a file based on the tag value received."
