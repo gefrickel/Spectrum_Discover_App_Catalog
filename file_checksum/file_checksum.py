@@ -1,3 +1,4 @@
+sh-4.4# cat /application/file_checksum.py 
 #!/usr/bin/python -W ignore
 ########################################################## {COPYRIGHT-TOP} ###
 # Licensed Materials - Property of IBM
@@ -39,14 +40,16 @@ logger = logging.getLogger(os.environ.get('APPLICATION_NAME', 'file-checksum'))
 
 SUPPORTED_CHECKSUMS = ['sha3_384', 'sha1', 'sha256', 'sha512', 'sha384', 'md5', 'sha3_224', 'sha3_512', 'sha224', 'sha3_256']
 
-def hashfile(file):
+def hashfile(file,tag):
 
     # A arbitrary (but fixed) buffer size
     # 65536 = 65536 bytes = 64 kilobytes
     BUF_SIZE = 65536
 
     # Initializing the sha256() method
-    sha256 = hashlib.sha256()
+    # sha256 = hashlib.sha256()
+    # cs = hashlib.sha256()
+    cs = getattr(hashlib, tag)()
 
     # Opening the file provided as the first
     # commandline argument
@@ -62,7 +65,7 @@ def hashfile(file):
 
             # Passing that data to that sh256 hash
             # function (updating the function with that data)
-            sha256.update(data)
+            cs.update(data)
 
     # sha256.hexdigest() hashes all the input data passed
     # to the sha256() via sha256.update()
@@ -70,7 +73,7 @@ def hashfile(file):
     # all the input data gets hashed
     # hexdigest() hashes the data, and returns
     # the output in hexadecimal format
-    return sha256.hexdigest()
+    return cs.hexdigest()
 
 def main():  # pylint: disable=too-many-locals
     """Perform checksum on given files."""
@@ -166,7 +169,7 @@ def main():  # pylint: disable=too-many-locals
 
                     tags = {}
                     for tag in valid_checksums:
-                        checksum = hashfile(tmpfile_path)
+                        checksum = hashfile(tmpfile_path,tag)
 
                         print(f"Hash:{checksum}")
                     #    checksum.update(content)
