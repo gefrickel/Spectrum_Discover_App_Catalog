@@ -169,7 +169,9 @@ def main():  # pylint: disable=too-many-locals
                     tags = {}
                     for tag in valid_checksums:
                         checksum = hashfile(tmpfile_path,tag)
-                        print(f"{tag}:{checksum}")
+                        print(f"{tag:>35}:{checksum}")
+                        # print(f"{<26:tag:>9}:{checksum}")
+                        # print(f"{tag}:{checksum}")
                         # checksum.update(content)
                         tags[tag] = checksum
                     ##################################################
