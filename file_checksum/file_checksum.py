@@ -1,4 +1,3 @@
-sh-4.4# cat /application/file_checksum.py 
 #!/usr/bin/python -W ignore
 ########################################################## {COPYRIGHT-TOP} ###
 # Licensed Materials - Property of IBM
