@@ -25,7 +25,7 @@ RUN python3 -m pip install -r /application/requirements.txt && \
     rm -f /application/requirements.txt
 
 ### ENTRYPOINT []
-ENTRYPOINT ["/bin/sh", "-c", "--" , "while true; do sleep 30; done;"]
+### ENTRYPOINT ["/bin/sh", "-c", "--" , "while true; do sleep 30; done;"]
 
-### CMD ["python3", "/application/file_checksum.py"]
+CMD ["python3", "/application/file_checksum.py"]
 ### CMD []
